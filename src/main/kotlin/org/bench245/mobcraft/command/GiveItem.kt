@@ -26,85 +26,70 @@ class GiveItem(private val plugin: Mobcraft) : CommandExecutor {
         }
 
         if (args.isEmpty()) {
-            player.sendMessage(
-                "§cUsage: /giveitem <mobitem> <amount>"
-            )
+            player.sendMessage("§cUsage: /giveitem <mobitem> <amount>")
             return true
         }
 
-        if (args.size == 1) {
-            amount = 1
-        } else {
-            amount = args[1].toIntOrNull()?: 1
-        }
+        amount = if (args.size == 1) 1 else args[1].toIntOrNull() ?: 1
 
         when (mobType) {
-            // GHAST-specific items
             "GHAST" -> {
-                val type = args[0].lowercase()
-                when (type) {
+                when (args[0].lowercase()) {
                     "ghast_tear" -> giveItem(player, Material.GHAST_TEAR, amount)
-                    "gunpowder" -> giveItem(player, Material.GUNPOWDER, amount)
+                    "gunpowder"  -> giveItem(player, Material.GUNPOWDER, amount)
                     else -> player.sendMessage("§cInvalid type. Use 'ghast_tear' or 'gunpowder'.")
                 }
-                return true
             }
             "BLAZE" -> {
-                val type = args[0].lowercase()
-                when (type) {
+                when (args[0].lowercase()) {
                     "blaze_rod" -> giveItem(player, Material.BLAZE_ROD, amount)
                     else -> player.sendMessage("§cInvalid type. Use 'blaze_rod'.")
                 }
-                return true
             }
             "ENDERMAN" -> {
-                val type = args[0].lowercase()
-                when (type) {
+                when (args[0].lowercase()) {
                     "ender_pearl" -> giveItem(player, Material.ENDER_PEARL, amount)
                     else -> player.sendMessage("§cInvalid type. Use 'ender_pearl'.")
                 }
-                return true
             }
             "TUFFGOLEM" -> {
-                val type = args[0].lowercase()
-                when (type) {
+                when (args[0].lowercase()) {
                     "tuff" -> giveItem(player, Material.TUFF, amount)
                     else -> player.sendMessage("§cInvalid type. Use 'tuff'.")
                 }
-                return true
             }
             "ENDER_DRAGON" -> {
-                val type = args[0].lowercase()
-                when (type) {
-                    "dragon_egg" -> giveItem(player, Material.DRAGON_EGG, amount)
-                    "dragon_breath" -> giveItem(player, Material.DRAGON_BREATH, amount)
+                when (args[0].lowercase()) {
+                    "dragon_egg"       -> giveItem(player, Material.DRAGON_EGG, amount)
+                    "dragon_breath"    -> giveItem(player, Material.DRAGON_BREATH, amount)
                     "end_portal_frame" -> giveItem(player, Material.END_PORTAL_FRAME, amount)
                     else -> player.sendMessage("§cInvalid type. Use 'dragon_egg', 'dragon_breath', or 'end_portal_frame'.")
                 }
-                return true
             }
             "ELDER_GUARDIAN" -> {
-                val type = args[0].lowercase()
-                when (type) {
-                    "sponge" -> giveItem(player, Material.SPONGE, amount)
+                when (args[0].lowercase()) {
+                    "sponge"     -> giveItem(player, Material.SPONGE, amount)
                     "prismarine" -> giveItem(player, Material.PRISMARINE, amount)
                     else -> player.sendMessage("§cInvalid type. Use 'sponge' or 'prismarine'.")
+                }
+            }
+            "SHULKER" -> {
+                when (args[0].lowercase()) {
+                    "shulker_shell" -> giveItem(player, Material.SHULKER_SHELL, amount)
+                    else -> player.sendMessage("§cInvalid type. Use 'shulker_shell'.")
+                }
+            }
+            "SILVERFISH" -> {
+                when (args[0].lowercase()) {
+                    "iron_nugget" -> giveItem(player, Material.IRON_NUGGET, amount)
+                    else -> player.sendMessage("§cInvalid type. Use 'iron_nugget'.")
                 }
             }
         }
         return true
     }
-    private fun giveItem(player: Player, material: Material, amount: Int) {
-        val item = ItemStack(material, amount)
-        player.inventory.addItem(item)
-    }
 
-    //private fun giveSkeletonBow(player: Player) {
-        //val bow = ItemStack(Material.BOW, 1)
-        //val meta = bow.itemMeta
-        //meta?.addEnchant(Enchantment.POWER, 8, true)
-        //meta?.addEnchant(Enchantment.VANISHING_CURSE, 1, true)
-        //bow.itemMeta = meta
-        //player.inventory.addItem(bow)
-    //}
+    private fun giveItem(player: Player, material: Material, amount: Int) {
+        player.inventory.addItem(ItemStack(material, amount))
+    }
 }
